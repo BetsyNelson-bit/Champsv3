@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --navy: #0A2540;
+      --red: #D90429;
+      --light-bg: #F4F7F6;
+      --white: #FFFFFF;
+      --text: #1D2A44;
+      --border: #B3C5D7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: transparent;
+      padding: 10px;
+      color: var(--text);
+    }
+
+    .champs-card {
+      width: 100%;
+      max-width: 550px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 4px solid var(--navy);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .champs-header {
+      background-color: var(--navy);
+      color: var(--white);
+      text-align: center;
+      padding: 12px 10px 8px 10px;
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
+      border-bottom: 4px solid var(--red);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0 4px;
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+    }
+
+    .collapse-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1.5px solid var(--white);
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: bold;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    .manage-btn {
+      background: #FFFFFF22;
+      border: 1.5px solid var(--white);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .manage-btn:hover {
+      background: var(--white);
+      color: var(--navy);
+    }
+
+    .card-body {
+      display: block;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .collapsed .card-body {
+      display: none;
+    }
+
+    .collapsed .champs-header {
+      border-bottom: none;
+    }
+
+    .champs-row {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--border);
+      background-color: var(--white);
+    }
+
+    .champs-row:nth-child(even) {
+      background-color: #F8FAFC;
+    }
+
+    .row-top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .letter-badge {
+      width: 38px;
+      height: 38px;
+      background-color: var(--red);
+      color: var(--white);
+      font-size: 1.6rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .category-title {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dropdown-select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      background-color: var(--light-bg);
+      border: 2px solid var(--navy);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .dropdown-select:focus {
+      border-color: var(--red);
+      background-color: #FFFFFF;
+    }
+
+    .edit-toggle {
+      background: none;
+      border: none;
+      color: #6C757D;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-left: auto;
+    }
+
+    .custom-input {
+      display: none;
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1.1rem;
+      border: 2px dashed var(--red);
+      border-radius: 6px;
+    }
+
+    .show-input .dropdown-select { display: none; }
+    .show-input .custom-input { display: block; }
+
+    .card-footer {
+      padding: 8px 12px;
+      text-align: center;
+      background: var(--light-bg);
+    }
+
+    .reset-link {
+      background: none;
+      border: none;
+      color: #A0AEC0;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .reset-link:hover { color: var(--red); }
+
+    .modal-overlay {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 37, 64, 0.98);
+      z-index: 100;
+      padding: 16px;
+      color: var(--white);
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--red);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .modal-title { font-weight: 800; font-size: 1.2rem; }
+    .close-modal { background: var(--red); color: white; border: none; padding: 4px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+
+    .modal-section { margin-bottom: 16px; }
+    .modal-section-title { font-size: 0.95rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; color: #90CDF4; }
+
+    .item-list { list-style: none; margin-bottom: 6px; }
+    .item-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      padding: 6px 10px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .delete-btn {
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .add-row-form {
+      display: flex;
+      gap: 6px;
+    }
+
+    .add-row-input {
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      outline: none;
+      color: var(--text);
+    }
+
+    .add-row-btn {
+      background: #2B6CB0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .add-row-btn:hover { background: #3182CE; }
+
+    .theme-picker-container {
+      display: flex;
+      gap: 16px;
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .color-picker-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+
+    .color-picker-group input[type="color"] {
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      background: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="champs-card" id="mainCard">
+    <div class="champs-header">
+      <div class="header-top">
+        <div style="width:32px;"></div>
+        <span class="header-title">CHAMPS EXPECTATIONS</span>
+        <button class="collapse-btn" id="collapseBtn" onclick="toggleCard()" title="Expand/Contract">-</button>
+      </div>
+      <div class="header-actions">
+        <button class="manage-btn" onclick="openModal()">⚙ Edit Options</button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="champs-row" id="row-c">
+        <div class="row-top">
+          <div class="letter-badge">C</div>
+          <div class="category-title">Conversation</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-c')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('c', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('c', 'row-c')">
+      </div>
+
+      <div class="champs-row" id="row-h">
+        <div class="row-top">
+          <div class="letter-badge">H</div>
+          <div class="category-title">Help</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-h')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('h', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('h', 'row-h')">
+      </div>
+
+      <div class="champs-row" id="row-a">
+        <div class="row-top">
+          <div class="letter-badge">A</div>
+          <div class="category-title">Activity</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-a')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('a', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('a', 'row-a')">
+      </div>
+
+      <div class="champs-row" id="row-m">
+        <div class="row-top">
+          <div class="letter-badge">M</div>
+          <div class="category-title">Movement</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-m')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('m', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('m', 'row-m')">
+      </div>
+
+      <div class="champs-row" id="row-p">
+        <div class="row-top">
+          <div class="letter-badge">P</div>
+          <div class="category-title">Participation</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-p')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('p', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('p', 'row-p')">
+      </div>
+
+      <div class="champs-row" id="row-s">
+        <div class="row-top">
+          <div class="letter-badge">S</div>
+          <div class="category-title">Success</div>
+          <button class="edit-toggle" onclick="toggleEdit('row-s')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('s', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('s', 'row-s')">
+      </div>
+
+      <div class="card-footer">
+        <button class="reset-link" onclick="resetDefaults()">Reset to Defaults</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-header">
+        <div class="modal-title">Settings & Customization</div>
+        <button class="close-modal" onclick="closeModal()">Done</button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const defaultData = {
+      c: ["Level 0: Voice Off / Silent", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
+      h: ["Raise hand & wait in seat", "Ask tablemates first (Ask 3)", "Red/Green Help Card on desk", "Submit question via chat/form"],
+      a: ["Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Group / Partner Lab", "Assessment / Quiz", "Warm-Up / Do Now"],
+      m: ["Seated at all times", "Raise hand for permission", "1 at a time (Sign-out / Pass)", "Responsible movement permitted"],
+      p: ["Tracking speaker & taking notes", "Actively completing assigned task", "Contributing equal effort to group", "Working silently on own material"],
+      s: ["Achieve Daily Learning Target!", "Do Your Best Effort", "Finish Strong!"]
+    };
+
+    const defaultColors = { primary: "#0A2540", accent: "#D90429" };
+
+    let champsData = JSON.parse(localStorage.getItem('champsOptions')) || defaultData;
+    let selectedData = JSON.parse(localStorage.getItem('champsSelected')) || { c:"", h:"", a:"", m:"", p:"", s:"" };
+    let champsColors = JSON.parse(localStorage.getItem('champsColors')) || defaultColors;
+
+    function applyColors() {
+      document.documentElement.style.setProperty('--navy', champsColors.primary);
+      document.documentElement.style.setProperty('--red', champsColors.accent);
+    }
+
+    function updateColor(key, hexVal) {
+      champsColors[key] = hexVal;
+      localStorage.setItem('champsColors', JSON.stringify(champsColors));
+      applyColors();
+    }
+
+    function renderUI() {
+      applyColors();
+      ['c','h','a','m','p','s'].forEach(key => {
+        const row = document.getElementById(`row-${key}`);
+        const select = row.querySelector('.dropdown-select');
+        select.innerHTML = '';
+        
+        champsData[key].forEach(optText => {
+          const opt = document.createElement('option');
+          opt.value = optText;
+          opt.textContent = optText;
+          if (selectedData[key] === optText) opt.selected = true;
+          select.appendChild(opt);
+        });
+      });
+    }
+
+    function toggleCard() {
+      const card = document.getElementById('mainCard');
+      const btn = document.getElementById('collapseBtn');
+      card.classList.toggle('collapsed');
+      btn.textContent = card.classList.contains('collapsed') ? '+' : '-';
+    }
+
+    function saveSelection(key, val) {
+      selectedData[key] = val;
+      localStorage.setItem('champsSelected', JSON.stringify(selectedData));
+    }
+
+    function toggleEdit(rowId) {
+      const row = document.getElementById(rowId);
+      row.classList.toggle('show-input');
+      if (row.classList.contains('show-input')) {
+        row.querySelector('.custom-input').focus();
+      }
+    }
+
+    function saveCustom(key, rowId) {
+      const row = document.getElementById(rowId);
+      const input = row.querySelector('.custom-input');
+      const val = input.value.trim();
+
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          localStorage.setItem('champsOptions', JSON.stringify(champsData));
+        }
+        selectedData[key] = val;
+        localStorage.setItem('champsSelected', JSON.stringify(selectedData));
+        renderUI();
+      }
+      row.classList.remove('show-input');
+      input.value = "";
+    }
+
+    function addItemFromModal(key) {
+      const input = document.getElementById(`add-input-${key}`);
+      const val = input.value.trim();
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          localStorage.setItem('champsOptions', JSON.stringify(champsData));
+        }
+        openModal();
+      }
+    }
+
+    function openModal() {
+      const content = document.getElementById('modalContent');
+      content.innerHTML = '';
+
+      const colorSec = document.createElement('div');
+      colorSec.className = 'modal-section';
+      colorSec.innerHTML = `
+        <div class="modal-section-title">🎨 Card Theme Colors</div>
+        <div class="theme-picker-container">
+          <div class="color-picker-group">
+            <input type="color" id="primaryColorInput" value="${champsColors.primary}" onchange="updateColor('primary', this.value)">
+            <label for="primaryColorInput">Primary</label>
+          </div>
+          <div class="color-picker-group">
+            <input type="color" id="accentColorInput" value="${champsColors.accent}" onchange="updateColor('accent', this.value)">
+            <label for="accentColorInput">Accent</label>
+          </div>
+        </div>
+      `;
+      content.appendChild(colorSec);
+
+      const labels = { c: "Conversation", h: "Help", a: "Activity", m: "Movement", p: "Participation", s: "Success" };
+
+      ['c','h','a','m','p','s'].forEach(key => {
+        const sec = document.createElement('div');
+        sec.className = 'modal-section';
+        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} - ${labels[key]}</div>`;
+        
+        const ul = document.createElement('ul');
+        ul.className = 'item-list';
+
+        champsData[key].forEach((itemText, idx) => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span>${itemText}</span> <button class="delete-btn" onclick="removeItem('${key}', ${idx})">[X] Delete</button>`;
+          ul.appendChild(li);
+        });
+
+        sec.appendChild(ul);
+
+        const addForm = document.createElement('div');
+        addForm.className = 'add-row-form';
+        addForm.innerHTML = `
+          <input type="text" id="add-input-${key}" class="add-row-input" placeholder="Add new option...">
+          <button class="add-row-btn" onclick="addItemFromModal('${key}')">+ Add</button>
+        `;
+        sec.appendChild(addForm);
+
+        content.appendChild(sec);
+      });
+
+      document.getElementById('editModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+      renderUI();
+    }
+
+    function removeItem(key, index) {
+      champsData[key].splice(index, 1);
+      localStorage.setItem('champsOptions', JSON.stringify(champsData));
+      openModal();
+    }
+
+    function resetDefaults() {
+      if (confirm("Reset options and theme colors to defaults?")) {
+        champsData = JSON.parse(JSON.stringify(defaultData));
+        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
+        champsColors = JSON.parse(JSON.stringify(defaultColors));
+        localStorage.removeItem('champsOptions');
+        localStorage.removeItem('champsSelected');
+        localStorage.removeItem('champsColors');
+        renderUI();
+      }
+    }
+
+    renderUI();
+  </script>
+
+</body>
+</html>
