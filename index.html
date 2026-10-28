@@ -326,4 +326,362 @@
         <div class="row-top">
           <div class="letter-badge">C</div>
           <div class="category-title">Conversation</div>
-          <button class="edit-toggle
+          <button class="edit-toggle" onclick="toggleCustomInput('row-c')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('c', this.value)">
+          <option value="Level 0: Voice Off / Silent">Level 0: Voice Off / Silent</option>
+          <option value="Level 1: Whisper (Partner)">Level 1: Whisper (Partner)</option>
+          <option value="Level 2: Table Talk (Group)">Level 2: Table Talk (Group)</option>
+          <option value="Level 3: Presentation Voice">Level 3: Presentation Voice</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('c', 'row-c')">
+      </div>
+
+      <!-- H: Help -->
+      <div class="champs-row" id="row-h">
+        <div class="row-top">
+          <div class="letter-badge">H</div>
+          <div class="category-title">Help</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-h')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('h', this.value)">
+          <option value="Raise hand & wait in seat">Raise hand & wait in seat</option>
+          <option value="Ask 3 before me (Tablemates)">Ask 3 before me (Tablemates)</option>
+          <option value="Red/Green Help Card on desk">Red/Green Help Card on desk</option>
+          <option value="Submit question in chat">Submit question in chat</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('h', 'row-h')">
+      </div>
+
+      <!-- A: Activity -->
+      <div class="champs-row" id="row-a">
+        <div class="row-top">
+          <div class="letter-badge">A</div>
+          <div class="category-title">Activity</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-a')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('a', this.value)">
+          <option value="Bellringer/Warm-up">Bellringer/Warm-up</option>
+          <option value="Direct Instruction / Mini-Lesson">Direct Instruction / Mini-Lesson</option>
+          <option value="Independent Work / Practice">Independent Work / Practice</option>
+          <option value="Group / Partner Lab">Group / Partner Lab</option>
+          <option value="Assessment / Quiz">Assessment / Quiz</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('a', 'row-a')">
+      </div>
+
+      <!-- M: Movement -->
+      <div class="champs-row" id="row-m">
+        <div class="row-top">
+          <div class="letter-badge">M</div>
+          <div class="category-title">Movement</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-m')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('m', this.value)">
+          <option value="2 at a time sharpen pencil, trash">2 at a time sharpen pencil, trash</option>
+          <option value="Seated at assigned desk">Seated at assigned desk</option>
+          <option value="Raise hand for permission">Raise hand for permission</option>
+          <option value="1 at a time (Sign-out / Pass)">1 at a time (Sign-out / Pass)</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('m', 'row-m')">
+      </div>
+
+      <!-- P: Participation -->
+      <div class="champs-row" id="row-p">
+        <div class="row-top">
+          <div class="letter-badge">P</div>
+          <div class="category-title">Participation</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-p')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('p', this.value)">
+          <option value="Actively completing assigned task">Actively completing assigned task</option>
+          <option value="Tracking speaker & taking notes">Tracking speaker & taking notes</option>
+          <option value="Contributing equal effort to group">Contributing equal effort to group</option>
+          <option value="Working silently on own material">Working silently on own material</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('p', 'row-p')">
+      </div>
+
+      <!-- S: Success -->
+      <div class="champs-row" id="row-s">
+        <div class="row-top">
+          <div class="letter-badge">S</div>
+          <div class="category-title">Success</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-s')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('s', this.value)">
+          <option value="Achieve Daily Learning Target!">Achieve Daily Learning Target!</option>
+          <option value="Do Your Personal Best Effort">Do Your Personal Best Effort</option>
+          <option value="Finish Strong!">Finish Strong!</option>
+        </select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('s', 'row-s')">
+      </div>
+
+      <div class="card-footer">
+        <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-header">
+        <div class="modal-title">Settings & Customization</div>
+        <button class="close-btn" onclick="closeModal()">Done</button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const labels = { c: "Conversation", h: "Help", a: "Activity", m: "Movement", p: "Participation", s: "Success" };
+
+    const defaultData = {
+      c: ["Level 0: Voice Off / Silent", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
+      h: ["Raise hand & wait in seat", "Ask 3 before me (Tablemates)", "Red/Green Help Card on desk", "Submit question in chat"],
+      a: ["Bellringer/Warm-up", "Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Group / Partner Lab", "Assessment / Quiz"],
+      m: ["2 at a time sharpen pencil, trash", "Seated at assigned desk", "Raise hand for permission", "1 at a time (Sign-out / Pass)"],
+      p: ["Actively completing assigned task", "Tracking speaker & taking notes", "Contributing equal effort to group", "Working silently on own material"],
+      s: ["Achieve Daily Learning Target!", "Do Your Personal Best Effort", "Finish Strong!"]
+    };
+
+    const defaultColors = { primary: "#1B2AD2", accent: "#E52222", bg: "#FFFFFF" };
+
+    let champsData, selectedData, champsColors, uiScale = 1;
+
+    function safeLoadStorage() {
+      try {
+        const storedOpt = localStorage.getItem('champsOptions_v13');
+        champsData = storedOpt ? JSON.parse(storedOpt) : JSON.parse(JSON.stringify(defaultData));
+
+        const storedSel = localStorage.getItem('champsSelected_v13');
+        selectedData = storedSel ? JSON.parse(storedSel) : { c:"", h:"", a:"", m:"", p:"", s:"" };
+
+        const storedCol = localStorage.getItem('champsColors_v13');
+        champsColors = storedCol ? JSON.parse(storedCol) : JSON.parse(JSON.stringify(defaultColors));
+
+        uiScale = parseFloat(localStorage.getItem('champsScale_v13')) || 1;
+      } catch (e) {
+        champsData = JSON.parse(JSON.stringify(defaultData));
+        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
+        champsColors = JSON.parse(JSON.stringify(defaultColors));
+        uiScale = 1;
+      }
+    }
+
+    function applyColors() {
+      document.documentElement.style.setProperty('--primary', champsColors.primary || "#1B2AD2");
+      document.documentElement.style.setProperty('--accent', champsColors.accent || "#E52222");
+      document.documentElement.style.setProperty('--card-bg', champsColors.bg || "#FFFFFF");
+    }
+
+    function applyScale() {
+      document.documentElement.style.setProperty('--ui-scale', uiScale);
+    }
+
+    function changeScale(delta) {
+      uiScale = Math.min(Math.max(0.7, uiScale + delta), 2.0);
+      try { localStorage.setItem('champsScale_v13', uiScale); } catch(e){}
+      applyScale();
+    }
+
+    function updateColor(key, hexVal) {
+      champsColors[key] = hexVal;
+      try { localStorage.setItem('champsColors_v13', JSON.stringify(champsColors)); } catch(e){}
+      applyColors();
+    }
+
+    function toggleCollapse() {
+      const card = document.getElementById('mainCard');
+      card.classList.toggle('collapsed');
+      document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-';
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function renderUI() {
+      ['c','h','a','m','p','s'].forEach(key => {
+        const row = document.getElementById(`row-${key}`);
+        if (!row) return;
+        const select = row.querySelector('.dropdown-select');
+        select.innerHTML = '';
+
+        const list = (champsData[key] && champsData[key].length > 0) ? champsData[key] : defaultData[key];
+        list.forEach(optText => {
+          const opt = document.createElement('option');
+          opt.value = optText;
+          opt.textContent = optText;
+          if (selectedData[key] === optText) opt.selected = true;
+          select.appendChild(opt);
+        });
+      });
+    }
+
+    function toggleCustomInput(rowId) {
+      const row = document.getElementById(rowId);
+      row.classList.toggle('show-input');
+      if (row.classList.contains('show-input')) row.querySelector('.custom-input').focus();
+    }
+
+    function saveCustomOption(key, rowId) {
+      const row = document.getElementById(rowId);
+      const input = row.querySelector('.custom-input');
+      const val = input.value.trim();
+
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          try { localStorage.setItem('champsOptions_v13', JSON.stringify(champsData)); } catch(e){}
+        }
+        selectedData[key] = val;
+        try { localStorage.setItem('champsSelected_v13', JSON.stringify(selectedData)); } catch(e){}
+        renderUI();
+      }
+      row.classList.remove('show-input');
+      input.value = "";
+    }
+
+    function saveSelection(key, val) {
+      selectedData[key] = val;
+      try { localStorage.setItem('champsSelected_v13', JSON.stringify(selectedData)); } catch(e){}
+    }
+
+    function openModal() {
+      const content = document.getElementById('modalContent');
+      content.innerHTML = '';
+
+      const colorSec = document.createElement('div');
+      colorSec.className = 'modal-section';
+      colorSec.innerHTML = `
+        <div class="modal-section-title">🎨 Theme Colors</div>
+        <div class="theme-picker-container">
+          <div class="color-picker-group">
+            <input type="color" id="pCol" value="${champsColors.primary}" onchange="updateColor('primary', this.value)">
+            <label for="pCol">Primary Header/Borders</label>
+          </div>
+          <div class="color-picker-group">
+            <input type="color" id="aCol" value="${champsColors.accent}" onchange="updateColor('accent', this.value)">
+            <label for="aCol">Accent Badges</label>
+          </div>
+        </div>
+      `;
+      content.appendChild(colorSec);
+
+      ['c','h','a','m','p','s'].forEach(key => {
+        const sec = document.createElement('div');
+        sec.className = 'modal-section';
+        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} - ${labels[key]}</div>`;
+
+        const ul = document.createElement('ul');
+        ul.className = 'item-list';
+
+        (champsData[key] || []).forEach((itemText, idx) => {
+          const li = document.createElement('li');
+          li.id = `item-${key}-${idx}`;
+          li.innerHTML = `
+            <span style="flex:1;">${escapeHtml(itemText)}</span>
+            <div class="item-actions">
+              <button class="edit-btn" onclick="enableInlineEdit('${key}', ${idx})">Edit</button>
+              <button class="delete-btn" onclick="removeItem('${key}', ${idx})">[X] Delete</button>
+            </div>
+          `;
+          ul.appendChild(li);
+        });
+
+        sec.appendChild(ul);
+
+        const addForm = document.createElement('div');
+        addForm.className = 'add-row-form';
+        addForm.innerHTML = `
+          <input type="text" id="add-input-${key}" class="add-row-input" placeholder="Add option..." onkeydown="if(event.key==='Enter') addItemFromModal('${key}')">
+          <button class="add-row-btn" onclick="addItemFromModal('${key}')">+ Add</button>
+        `;
+        sec.appendChild(addForm);
+
+        content.appendChild(sec);
+      });
+
+      document.getElementById('editModal').style.display = 'block';
+    }
+
+    function enableInlineEdit(key, index) {
+      const li = document.getElementById(`item-${key}-${index}`);
+      const currentText = champsData[key][index];
+      li.innerHTML = `
+        <input type="text" id="edit-input-${key}-${index}" class="add-row-input" value="${escapeHtml(currentText)}" onkeydown="if(event.key==='Enter') saveItemEdit('${key}', ${index})">
+        <div class="item-actions">
+          <button class="add-row-btn" onclick="saveItemEdit('${key}', ${index})">Save</button>
+          <button class="delete-btn" onclick="openModal()">Cancel</button>
+        </div>
+      `;
+      const input = document.getElementById(`edit-input-${key}-${index}`);
+      input.focus();
+      input.select();
+    }
+
+    function saveItemEdit(key, index) {
+      const input = document.getElementById(`edit-input-${key}-${index}`);
+      if (!input) return;
+      const newText = input.value.trim();
+      if (newText !== "") {
+        const oldText = champsData[key][index];
+        champsData[key][index] = newText;
+        if (selectedData[key] === oldText) {
+          selectedData[key] = newText;
+          try { localStorage.setItem('champsSelected_v13', JSON.stringify(selectedData)); } catch(e){}
+        }
+        try { localStorage.setItem('champsOptions_v13', JSON.stringify(champsData)); } catch(e){}
+      }
+      openModal();
+    }
+
+    function addItemFromModal(key) {
+      const input = document.getElementById(`add-input-${key}`);
+      const val = input ? input.value.trim() : "";
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          try { localStorage.setItem('champsOptions_v13', JSON.stringify(champsData)); } catch(e){}
+        }
+        openModal();
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+      renderUI();
+    }
+
+    function removeItem(key, index) {
+      champsData[key].splice(index, 1);
+      try { localStorage.setItem('champsOptions_v13', JSON.stringify(champsData)); } catch(e){}
+      openModal();
+    }
+
+    function resetDefaults() {
+      if (confirm("Reset options, text scaling, and theme colors to defaults?")) {
+        champsData = JSON.parse(JSON.stringify(defaultData));
+        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
+        champsColors = JSON.parse(JSON.stringify(defaultColors));
+        uiScale = 1;
+        try {
+          localStorage.removeItem('champsOptions_v13');
+          localStorage.removeItem('champsSelected_v13');
+          localStorage.removeItem('champsColors_v13');
+          localStorage.removeItem('champsScale_v13');
+        } catch(e){}
+        applyColors();
+        applyScale();
+        renderUI();
+      }
+    }
+
+    safeLoadStorage();
+    applyColors();
+    applyScale();
+    renderUI();
+  </script>
+
+</body>
+</html>
