@@ -36,9 +36,10 @@
       transition: max-width 0.2s ease;
     }
 
-    .size-compact { max-width: 320px; }
-    .size-medium  { max-width: 480px; }
-    .size-large   { max-width: 680px; }
+    /* Resizing sizes */
+    .size-compact { max-width: 340px; }
+    .size-medium  { max-width: 500px; }
+    .size-large   { max-width: 700px; }
 
     .champs-header {
       background-color: var(--primary);
@@ -94,8 +95,8 @@
 
     .manage-btn:hover { background: #FFFFFF; color: var(--primary); }
 
-    .champs-body { display: flex; flex-direction: column; }
-    .collapsed .champs-body { display: none; }
+    .card-body { display: flex; flex-direction: column; }
+    .collapsed .card-body { display: none; }
     .collapsed .champs-header { border-bottom: none; }
 
     .champs-row {
@@ -263,12 +264,79 @@
       </div>
     </div>
 
-    <div class="champs-body" id="champsRows"></div>
+    <div class="card-body">
+      <!-- C: Conversation -->
+      <div class="champs-row" id="row-c">
+        <div class="row-top">
+          <div class="badge">C</div>
+          <div class="category-title">Conversation</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-c')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('c', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('c', 'row-c')">
+      </div>
 
-    <div class="card-footer">
-      <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
+      <!-- H: Help -->
+      <div class="champs-row" id="row-h">
+        <div class="row-top">
+          <div class="badge">H</div>
+          <div class="category-title">Help</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-h')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('h', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('h', 'row-h')">
+      </div>
+
+      <!-- A: Activity -->
+      <div class="champs-row" id="row-a">
+        <div class="row-top">
+          <div class="badge">A</div>
+          <div class="category-title">Activity</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-a')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('a', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('a', 'row-a')">
+      </div>
+
+      <!-- M: Movement -->
+      <div class="champs-row" id="row-m">
+        <div class="row-top">
+          <div class="badge">M</div>
+          <div class="category-title">Movement</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-m')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('m', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('m', 'row-m')">
+      </div>
+
+      <!-- P: Participation -->
+      <div class="champs-row" id="row-p">
+        <div class="row-top">
+          <div class="badge">P</div>
+          <div class="category-title">Participation</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-p')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('p', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('p', 'row-p')">
+      </div>
+
+      <!-- S: Success -->
+      <div class="champs-row" id="row-s">
+        <div class="row-top">
+          <div class="badge">S</div>
+          <div class="category-title">Success</div>
+          <button class="edit-toggle" onclick="toggleCustomInput('row-s')">+ Custom</button>
+        </div>
+        <select class="dropdown-select" onchange="saveSelection('s', this.value)"></select>
+        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('s', 'row-s')">
+      </div>
+
+      <div class="card-footer">
+        <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
+      </div>
     </div>
 
+    <!-- Modal Window -->
     <div class="modal-overlay" id="editModal">
       <div class="modal-header">
         <div class="modal-title">Settings & Customization</div>
@@ -279,14 +347,7 @@
   </div>
 
   <script>
-    const categories = [
-      { key: 'c', letter: 'C', title: 'Conversation' },
-      { key: 'h', letter: 'H', title: 'Help' },
-      { key: 'a', letter: 'A', title: 'Activity' },
-      { key: 'm', letter: 'M', title: 'Movement' },
-      { key: 'p', letter: 'P', title: 'Participation' },
-      { key: 's', letter: 'S', title: 'Success' }
-    ];
+    const labels = { c: "Conversation", h: "Help", a: "Activity", m: "Movement", p: "Participation", s: "Success" };
 
     const defaultData = {
       c: ["Level 0: Silent / Voice Off", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
@@ -304,10 +365,19 @@
 
     function safeLoadStorage() {
       try {
-        champsData = JSON.parse(localStorage.getItem('champsOptions_v8')) || JSON.parse(JSON.stringify(defaultData));
-        selectedData = JSON.parse(localStorage.getItem('champsSelected_v8')) || { c:"", h:"", a:"", m:"", p:"", s:"" };
-        champsColors = JSON.parse(localStorage.getItem('champsColors_v8')) || JSON.parse(JSON.stringify(defaultColors));
-        currentSizeIdx = parseInt(localStorage.getItem('champsSizeIdx_v8')) || 0;
+        const storedOpt = localStorage.getItem('champsOptions_v9');
+        if (storedOpt) champsData = JSON.parse(storedOpt);
+        if (!champsData || !champsData.c || champsData.c.length === 0) {
+          champsData = JSON.parse(JSON.stringify(defaultData));
+        }
+
+        const storedSel = localStorage.getItem('champsSelected_v9');
+        selectedData = storedSel ? JSON.parse(storedSel) : { c:"", h:"", a:"", m:"", p:"", s:"" };
+
+        const storedCol = localStorage.getItem('champsColors_v9');
+        champsColors = storedCol ? JSON.parse(storedCol) : JSON.parse(JSON.stringify(defaultColors));
+
+        currentSizeIdx = parseInt(localStorage.getItem('champsSizeIdx_v9')) || 0;
       } catch (e) {
         champsData = JSON.parse(JSON.stringify(defaultData));
         selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
@@ -324,32 +394,22 @@
 
     function updateColor(key, hexVal) {
       champsColors[key] = hexVal;
-      try { localStorage.setItem('champsColors_v8', JSON.stringify(champsColors)); } catch(e){}
+      try { localStorage.setItem('champsColors_v9', JSON.stringify(champsColors)); } catch(e){}
       applyColors();
     }
 
     function applySize() {
-      document.getElementById('mainCard').className = `champs-card size-${sizes[currentSizeIdx \vert{}\vert{} 0]}`; }  function toggleSize() { currentSizeIdx = ((currentSizeIdx \vert{}\vert{} 0) + 1) \% sizes.length; try { localStorage.setItem('champsSizeIdx_v8', currentSizeIdx); } catch(e){} applySize(); }  function toggleCollapse() { const card = document.getElementById('mainCard'); card.classList.toggle('collapsed'); document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-'; }  function escapeHtml(str) { return (str \vert{}\vert{} '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }  function renderRows() { const container = document.getElementById('champsRows'); container.innerHTML = '';  categories.forEach(cat => { const row = document.createElement('div'); row.className = 'champs-row'; row.id = `row-${cat.key}`;
-
-        row.innerHTML = `
-          <div class="row-top">
-            <div class="badge">\${cat.letter}</div>
-            <div class="category-title">\${cat.title}</div>
-            <button class="edit-toggle" onclick="toggleCustomInput('row-\${cat.key}')">+ Custom</button>
-          </div>
-          <select class="dropdown-select" onchange="saveSelection('\${cat.key}', this.value)"></select>
-          <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('${cat.key}', 'row-${cat.key}')">
-        `;
-
-        container.appendChild(row);
-
+      document.getElementById('mainCard').className = `champs-card size-${sizes[currentSizeIdx \vert{}\vert{} 0]}`; }  function toggleSize() { currentSizeIdx = ((currentSizeIdx \vert{}\vert{} 0) + 1) \% sizes.length; try { localStorage.setItem('champsSizeIdx_v9', currentSizeIdx); } catch(e){} applySize(); }  function toggleCollapse() { const card = document.getElementById('mainCard'); card.classList.toggle('collapsed'); document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-'; }  function escapeHtml(str) { return (str \vert{}\vert{} '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }  function renderUI() { ['c','h','a','m','p','s'].forEach(key => { const row = document.getElementById(`row-${key}`);
+        if (!row) return;
         const select = row.querySelector('.dropdown-select');
-        const list = champsData[cat.key] || [];
+        select.innerHTML = '';
+
+        const list = champsData[key] || defaultData[key];
         list.forEach(optText => {
           const opt = document.createElement('option');
           opt.value = optText;
           opt.textContent = optText;
-          if (selectedData[cat.key] === optText) opt.selected = true;
+          if (selectedData[key] === optText) opt.selected = true;
           select.appendChild(opt);
         });
       });
@@ -369,11 +429,11 @@
       if (val !== "") {
         if (!champsData[key].includes(val)) {
           champsData[key].push(val);
-          try { localStorage.setItem('champsOptions_v8', JSON.stringify(champsData)); } catch(e){}
+          try { localStorage.setItem('champsOptions_v9', JSON.stringify(champsData)); } catch(e){}
         }
         selectedData[key] = val;
-        try { localStorage.setItem('champsSelected_v8', JSON.stringify(selectedData)); } catch(e){}
-        renderRows();
+        try { localStorage.setItem('champsSelected_v9', JSON.stringify(selectedData)); } catch(e){}
+        renderUI();
       }
       row.classList.remove('show-input');
       input.value = "";
@@ -381,7 +441,7 @@
 
     function saveSelection(key, val) {
       selectedData[key] = val;
-      try { localStorage.setItem('champsSelected_v8', JSON.stringify(selectedData)); } catch(e){}
+      try { localStorage.setItem('champsSelected_v9', JSON.stringify(selectedData)); } catch(e){}
     }
 
     function openModal() {
@@ -400,25 +460,3 @@
           <div class="color-picker-group">
             <input type="color" id="aCol" value="\${champsColors.accent}" onchange="updateColor('accent', this.value)">
             <label for="aCol">Accent</label>
-          </div>
-          <div class="color-picker-group">
-            <input type="color" id="bCol" value="\${champsColors.bg}" onchange="updateColor('bg', this.value)">
-            <label for="bCol">Background</label>
-          </div>
-        </div>
-      `;
-      content.appendChild(colorSec);
-
-      categories.forEach(cat => {
-        const sec = document.createElement('div');
-        sec.className = 'modal-section';
-        sec.innerHTML = `<div class="modal-section-title">${cat.letter} -${cat.title}</div>`;
-
-        const ul = document.createElement('ul');
-        ul.className = 'item-list';
-
-        (champsData[cat.key] || []).forEach((itemText, idx) => {
-          const li = document.createElement('li');
-          li.id = `item-${cat.key}-${idx}`;
-          li.innerHTML = `
-            <span style="flex:1;">\${escapeHtml(itemText)}</span>
