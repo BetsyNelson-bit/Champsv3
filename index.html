@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Champs v3</title>
+  <title>CHAMPS Expectations Card</title>
   <style>
     :root {
       --navy: #0A2540;
@@ -243,31 +243,49 @@
     }
 
     .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--navy);
+      z-index: 10;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 2px solid var(--red);
-      padding-bottom: 6px;
-      margin-bottom: 10px;
+      padding: 6px 0;
+      margin-bottom: 12px;
     }
 
-    .modal-title { font-weight: 800; font-size: 1rem; }
-    .close-modal { background: var(--red); color: white; border: none; padding: 2px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .modal-title { font-weight: 800; font-size: 1.1rem; }
+    .close-modal { background: var(--red); color: white; border: none; padding: 4px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; }
 
-    .modal-section { margin-bottom: 14px; }
-    .modal-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #90CDF4; }
+    .modal-section { 
+      margin-bottom: 16px; 
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .modal-section-title { 
+      font-size: 0.9rem; 
+      font-weight: 800; 
+      text-transform: uppercase; 
+      margin-bottom: 8px; 
+      color: #90CDF4;
+      letter-spacing: 0.5px;
+    }
 
-    .item-list { list-style: none; margin-bottom: 6px; }
+    .item-list { list-style: none; margin-bottom: 8px; }
     .item-list li {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255,255,255,0.1);
-      padding: 4px 6px;
-      margin-bottom: 3px;
-      border-radius: 3px;
-      font-size: 0.75rem;
-      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      gap: 8px;
     }
 
     .item-actions {
@@ -281,8 +299,8 @@
       color: white;
       border: none;
       border-radius: 3px;
-      padding: 1px 6px;
-      font-size: 0.65rem;
+      padding: 2px 8px;
+      font-size: 0.7rem;
       cursor: pointer;
       font-weight: 600;
     }
@@ -294,8 +312,8 @@
       color: white;
       border: none;
       border-radius: 3px;
-      padding: 1px 5px;
-      font-size: 0.65rem;
+      padding: 2px 6px;
+      font-size: 0.7rem;
       cursor: pointer;
     }
 
@@ -303,15 +321,16 @@
 
     .add-row-form {
       display: flex;
-      gap: 4px;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .add-row-input {
       flex: 1;
-      padding: 3px 6px;
-      font-size: 0.75rem;
+      padding: 4px 8px;
+      font-size: 0.8rem;
       border: 1px solid var(--border);
-      border-radius: 3px;
+      border-radius: 4px;
       outline: none;
       color: var(--text);
     }
@@ -320,72 +339,11 @@
       background: #2B6CB0;
       color: white;
       border: none;
-      border-radius: 3px;
-      padding: 3px 8px;
-      font-size: 0.7rem;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
     }
 
-    .add-row-btn:hover { background: #3182CE; }
-
-    .theme-picker-container {
-      display: flex;
-      gap: 12px;
-      background: rgba(255,255,255,0.1);
-      padding: 8px;
-      border-radius: 6px;
-    }
-
-    .color-picker-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      flex: 1;
-    }
-
-    .color-picker-group input[type="color"] {
-      border: none;
-      width: 26px;
-      height: 26px;
-      border-radius: 4px;
-      cursor: pointer;
-      background: none;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="champs-card" id="mainCard">
-    <div class="champs-header">
-      <div class="header-top">
-        <div style="width:2rem;"></div>
-        <span class="header-title">CHAMPS EXPECTATIONS</span>
-        <button class="collapse-btn" id="collapseBtn" onclick="toggleCard()" title="Expand/Contract">-</button>
-      </div>
-      <div class="header-actions">
-        <button class="manage-btn" onclick="openModal()">⚙ Edit Options</button>
-      </div>
-    </div>
-
-    <div class="card-body">
-      <!-- C: Conversation -->
-      <div class="champs-row" id="row-c">
-        <div class="row-top">
-          <div class="letter-badge">C</div>
-          <div class="category-title">Conversation</div>
-          <button class="edit-toggle" onclick="toggleEdit('row-c')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('c', this.value)"></select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustom('c', 'row-c')">
-      </div>
-
-      <!-- H: Help -->
-      <div class="champs-row" id="row-h">
-        <div class="row-top">
-          <div class="letter-badge">H</div>
-          <div class="category-title">Help</div>
-          <button class="edit-toggle" onclick="toggleEdit('row-h')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('h', this.value)"></select>
+    .add-row-btn:hover { background: #318
