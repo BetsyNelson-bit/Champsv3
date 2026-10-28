@@ -6,7 +6,7 @@
   <title>CHAMPS Expectations</title>
   <style>
     :root {
-      --primary: #1B2AD2;   /* Royal / Electric Blue */
+      --primary: #1B2AD2;   /* Royal Blue */
       --accent: #E52222;    /* Vibrant Red */
       --card-bg: #FFFFFF;
       --text: #1B2AD2;
@@ -38,7 +38,6 @@
       position: relative;
     }
 
-    /* Header */
     .champs-header {
       background-color: var(--primary);
       color: #FFFFFF;
@@ -49,7 +48,6 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      position: relative;
     }
 
     .header-top {
@@ -105,7 +103,6 @@
       color: var(--primary);
     }
 
-    /* Card Rows */
     .card-body {
       display: flex;
       flex-direction: column;
@@ -165,9 +162,7 @@
       margin-left: auto;
     }
 
-    .edit-toggle:hover {
-      color: var(--primary);
-    }
+    .edit-toggle:hover { color: var(--primary); }
 
     .dropdown-select {
       width: 100%;
@@ -215,7 +210,6 @@
 
     .reset-btn:hover { color: var(--accent); }
 
-    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -297,7 +291,12 @@
           <div class="category-title">Conversation</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-c')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('c', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('c', this.value)">
+          <option value="Level 0: Voice Off / Silent">Level 0: Voice Off / Silent</option>
+          <option value="Level 1: Whisper (Partner)">Level 1: Whisper (Partner)</option>
+          <option value="Level 2: Table Talk (Group)">Level 2: Table Talk (Group)</option>
+          <option value="Level 3: Presentation Voice">Level 3: Presentation Voice</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('c', 'row-c')">
       </div>
 
@@ -308,7 +307,12 @@
           <div class="category-title">Help</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-h')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('h', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('h', this.value)">
+          <option value="Raise hand & wait in seat">Raise hand & wait in seat</option>
+          <option value="Ask 3 before me (Tablemates)">Ask 3 before me (Tablemates)</option>
+          <option value="Red/Green Help Card on desk">Red/Green Help Card on desk</option>
+          <option value="Submit question in chat">Submit question in chat</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('h', 'row-h')">
       </div>
 
@@ -319,7 +323,13 @@
           <div class="category-title">Activity</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-a')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('a', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('a', this.value)">
+          <option value="Bellringer/Warm-up">Bellringer/Warm-up</option>
+          <option value="Direct Instruction / Mini-Lesson">Direct Instruction / Mini-Lesson</option>
+          <option value="Independent Work / Practice">Independent Work / Practice</option>
+          <option value="Group / Partner Lab">Group / Partner Lab</option>
+          <option value="Assessment / Quiz">Assessment / Quiz</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('a', 'row-a')">
       </div>
 
@@ -330,7 +340,12 @@
           <div class="category-title">Movement</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-m')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('m', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('m', this.value)">
+          <option value="2 at a time sharpen pencil, trash">2 at a time sharpen pencil, trash</option>
+          <option value="Seated at assigned desk">Seated at assigned desk</option>
+          <option value="Raise hand for permission">Raise hand for permission</option>
+          <option value="1 at a time (Sign-out / Pass)">1 at a time (Sign-out / Pass)</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('m', 'row-m')">
       </div>
 
@@ -341,7 +356,12 @@
           <div class="category-title">Participation</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-p')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('p', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('p', this.value)">
+          <option value="Actively completing assigned task">Actively completing assigned task</option>
+          <option value="Tracking speaker & taking notes">Tracking speaker & taking notes</option>
+          <option value="Contributing equal effort to group">Contributing equal effort to group</option>
+          <option value="Working silently on own material">Working silently on own material</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('p', 'row-p')">
       </div>
 
@@ -352,7 +372,11 @@
           <div class="category-title">Success</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-s')">+ Custom</button>
         </div>
-        <select class="dropdown-select" onchange="saveSelection('s', this.value)"></select>
+        <select class="dropdown-select" onchange="saveSelection('s', this.value)">
+          <option value="Achieve Daily Learning Target!">Achieve Daily Learning Target!</option>
+          <option value="Do Your Personal Best Effort">Do Your Personal Best Effort</option>
+          <option value="Finish Strong!">Finish Strong!</option>
+        </select>
         <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('s', 'row-s')">
       </div>
 
@@ -361,7 +385,7 @@
       </div>
     </div>
 
-    <!-- Modal Window -->
+    <!-- Settings Modal -->
     <div class="modal-overlay" id="editModal">
       <div class="modal-header">
         <div class="modal-title">Settings & Customization</div>
@@ -389,13 +413,13 @@
 
     function safeLoadStorage() {
       try {
-        const storedOpt = localStorage.getItem('champsOptions_v10');
+        const storedOpt = localStorage.getItem('champsOptions_v11');
         champsData = storedOpt ? JSON.parse(storedOpt) : JSON.parse(JSON.stringify(defaultData));
 
-        const storedSel = localStorage.getItem('champsSelected_v10');
+        const storedSel = localStorage.getItem('champsSelected_v11');
         selectedData = storedSel ? JSON.parse(storedSel) : { c:"", h:"", a:"", m:"", p:"", s:"" };
 
-        const storedCol = localStorage.getItem('champsColors_v10');
+        const storedCol = localStorage.getItem('champsColors_v11');
         champsColors = storedCol ? JSON.parse(storedCol) : JSON.parse(JSON.stringify(defaultColors));
       } catch (e) {
         champsData = JSON.parse(JSON.stringify(defaultData));
@@ -412,7 +436,7 @@
 
     function updateColor(key, hexVal) {
       champsColors[key] = hexVal;
-      try { localStorage.setItem('champsColors_v10', JSON.stringify(champsColors)); } catch(e){}
+      try { localStorage.setItem('champsColors_v11', JSON.stringify(champsColors)); } catch(e){}
       applyColors();
     }
 
@@ -428,12 +452,12 @@
 
     function renderUI() {
       ['c','h','a','m','p','s'].forEach(key => {
-        const row = document.getElementById(`row-\${key}`);
+        const row = document.getElementById(`row-${key}`);
         if (!row) return;
         const select = row.querySelector('.dropdown-select');
         select.innerHTML = '';
 
-        const list = champsData[key] || defaultData[key];
+        const list = (champsData[key] && champsData[key].length > 0) ? champsData[key] : defaultData[key];
         list.forEach(optText => {
           const opt = document.createElement('option');
           opt.value = optText;
@@ -458,10 +482,10 @@
       if (val !== "") {
         if (!champsData[key].includes(val)) {
           champsData[key].push(val);
-          try { localStorage.setItem('champsOptions_v10', JSON.stringify(champsData)); } catch(e){}
+          try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
         }
         selectedData[key] = val;
-        try { localStorage.setItem('champsSelected_v10', JSON.stringify(selectedData)); } catch(e){}
+        try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
         renderUI();
       }
       row.classList.remove('show-input');
@@ -470,7 +494,7 @@
 
     function saveSelection(key, val) {
       selectedData[key] = val;
-      try { localStorage.setItem('champsSelected_v10', JSON.stringify(selectedData)); } catch(e){}
+      try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
     }
 
     function openModal() {
@@ -483,16 +507,12 @@
         <div class="modal-section-title">🎨 Theme Colors</div>
         <div class="theme-picker-container">
           <div class="color-picker-group">
-            <input type="color" id="pCol" value="\${champsColors.primary}" onchange="updateColor('primary', this.value)">
-            <label for="pCol">Primary</label>
+            <input type="color" id="pCol" value="${champsColors.primary}" onchange="updateColor('primary', this.value)">
+            <label for="pCol">Primary Header/Borders</label>
           </div>
           <div class="color-picker-group">
-            <input type="color" id="aCol" value="\${champsColors.accent}" onchange="updateColor('accent', this.value)">
-            <label for="aCol">Accent</label>
-          </div>
-          <div class="color-picker-group">
-            <input type="color" id="bCol" value="\${champsColors.bg}" onchange="updateColor('bg', this.value)">
-            <label for="bCol">Background</label>
+            <input type="color" id="aCol" value="${champsColors.accent}" onchange="updateColor('accent', this.value)">
+            <label for="aCol">Accent Badges</label>
           </div>
         </div>
       `;
@@ -501,7 +521,7 @@
       ['c','h','a','m','p','s'].forEach(key => {
         const sec = document.createElement('div');
         sec.className = 'modal-section';
-        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} -${labels[key]}</div>`;
+        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} - ${labels[key]}</div>`;
 
         const ul = document.createElement('ul');
         ul.className = 'item-list';
@@ -510,6 +530,104 @@
           const li = document.createElement('li');
           li.id = `item-${key}-${idx}`;
           li.innerHTML = `
-            <span style="flex:1;">\${escapeHtml(itemText)}</span>
+            <span style="flex:1;">${escapeHtml(itemText)}</span>
             <div class="item-actions">
-              <button class="edit-btn" onclick="enableInlineEdit('${key}',${idx})">Edit</button>
+              <button class="edit-btn" onclick="enableInlineEdit('${key}', ${idx})">Edit</button>
+              <button class="delete-btn" onclick="removeItem('${key}', ${idx})">[X] Delete</button>
+            </div>
+          `;
+          ul.appendChild(li);
+        });
+
+        sec.appendChild(ul);
+
+        const addForm = document.createElement('div');
+        addForm.className = 'add-row-form';
+        addForm.innerHTML = `
+          <input type="text" id="add-input-${key}" class="add-row-input" placeholder="Add option..." onkeydown="if(event.key==='Enter') addItemFromModal('${key}')">
+          <button class="add-row-btn" onclick="addItemFromModal('${key}')">+ Add</button>
+        `;
+        sec.appendChild(addForm);
+
+        content.appendChild(sec);
+      });
+
+      document.getElementById('editModal').style.display = 'block';
+    }
+
+    function enableInlineEdit(key, index) {
+      const li = document.getElementById(`item-${key}-${index}`);
+      const currentText = champsData[key][index];
+      li.innerHTML = `
+        <input type="text" id="edit-input-${key}-${index}" class="add-row-input" value="${escapeHtml(currentText)}" onkeydown="if(event.key==='Enter') saveItemEdit('${key}', ${index})">
+        <div class="item-actions">
+          <button class="add-row-btn" onclick="saveItemEdit('${key}', ${index})">Save</button>
+          <button class="delete-btn" onclick="openModal()">Cancel</button>
+        </div>
+      `;
+      const input = document.getElementById(`edit-input-${key}-${index}`);
+      input.focus();
+      input.select();
+    }
+
+    function saveItemEdit(key, index) {
+      const input = document.getElementById(`edit-input-${key}-${index}`);
+      if (!input) return;
+      const newText = input.value.trim();
+      if (newText !== "") {
+        const oldText = champsData[key][index];
+        champsData[key][index] = newText;
+        if (selectedData[key] === oldText) {
+          selectedData[key] = newText;
+          try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
+        }
+        try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
+      }
+      openModal();
+    }
+
+    function addItemFromModal(key) {
+      const input = document.getElementById(`add-input-${key}`);
+      const val = input ? input.value.trim() : "";
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
+        }
+        openModal();
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+      renderUI();
+    }
+
+    function removeItem(key, index) {
+      champsData[key].splice(index, 1);
+      try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
+      openModal();
+    }
+
+    function resetDefaults() {
+      if (confirm("Reset options and theme colors to defaults?")) {
+        champsData = JSON.parse(JSON.stringify(defaultData));
+        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
+        champsColors = JSON.parse(JSON.stringify(defaultColors));
+        try {
+          localStorage.removeItem('champsOptions_v11');
+          localStorage.removeItem('champsSelected_v11');
+          localStorage.removeItem('champsColors_v11');
+        } catch(e){}
+        applyColors();
+        renderUI();
+      }
+    }
+
+    safeLoadStorage();
+    applyColors();
+    renderUI();
+  </script>
+
+</body>
+</html>
