@@ -11,6 +11,7 @@
       --card-bg: #FFFFFF;
       --text: #1B2AD2;
       --border: #D1D9E6;
+      --ui-scale: 1;
     }
 
     * {
@@ -24,30 +25,40 @@
       background: transparent;
       padding: 4px;
       color: #1D2A44;
+      display: flex;
+      justify-content: center;
     }
 
+    /* Resizable Container */
     .champs-card {
       width: 100%;
-      max-width: 360px;
+      max-width: 100%; /* Removed 360px limit to allow expanding larger */
+      min-width: 260px;
+      min-height: 380px;
       margin: 0 auto;
       background: var(--card-bg);
       border: 2px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
+      overflow: auto;   /* Required for CSS resize handle */
+      resize: both;     /* Enables drag-to-resize handle at bottom-right */
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
       position: relative;
+      display: flex;
+      flex-direction: column;
+      font-size: calc(16px * var(--ui-scale));
     }
 
     .champs-header {
       background-color: var(--primary);
       color: #FFFFFF;
       text-align: center;
-      padding: 10px 8px 6px 8px;
-      border-bottom: 3.5px solid var(--accent);
+      padding: calc(10px * var(--ui-scale)) calc(8px * var(--ui-scale));
+      border-bottom: calc(3.5px * var(--ui-scale)) solid var(--accent);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: calc(6px * var(--ui-scale));
+      flex-shrink: 0;
     }
 
     .header-top {
@@ -59,12 +70,34 @@
 
     .header-title {
       font-weight: 900;
-      font-size: 1.15rem;
+      font-size: clamp(0.9rem, calc(1.15rem * var(--ui-scale)), 2rem);
       letter-spacing: 0.8px;
       flex: 1;
       text-align: center;
       color: #FFFFFF;
       text-transform: uppercase;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .scale-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      color: #FFFFFF;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+
+    .scale-btn:hover {
+      background: #FFFFFF;
+      color: var(--primary);
     }
 
     .minimize-btn {
@@ -91,9 +124,9 @@
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid #FFFFFF;
       color: #FFFFFF;
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, calc(0.75rem * var(--ui-scale)), 1.1rem);
       font-weight: 700;
-      padding: 3px 12px;
+      padding: calc(3px * var(--ui-scale)) calc(12px * var(--ui-scale));
       border-radius: 6px;
       cursor: pointer;
     }
@@ -106,13 +139,14 @@
     .card-body {
       display: flex;
       flex-direction: column;
+      flex: 1;
     }
 
     .collapsed .card-body { display: none; }
     .collapsed .champs-header { border-bottom: none; }
 
     .champs-row {
-      padding: 6px 10px 8px 10px;
+      padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale)) calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
       border-bottom: 1px solid var(--border);
       background-color: var(--card-bg);
       display: flex;
@@ -126,27 +160,27 @@
     .row-top {
       display: flex;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: calc(4px * var(--ui-scale));
     }
 
     .letter-badge {
-      width: 26px;
-      height: 26px;
+      width: calc(26px * var(--ui-scale));
+      height: calc(26px * var(--ui-scale));
       background-color: var(--accent);
       color: #FFFFFF;
-      font-size: 1.15rem;
+      font-size: clamp(0.9rem, calc(1.15rem * var(--ui-scale)), 1.8rem);
       font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 5px;
-      margin-right: 8px;
+      margin-right: calc(8px * var(--ui-scale));
       flex-shrink: 0;
     }
 
     .category-title {
       font-weight: 900;
-      font-size: 0.95rem;
+      font-size: clamp(0.8rem, calc(0.95rem * var(--ui-scale)), 1.5rem);
       color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -156,7 +190,7 @@
       background: none;
       border: none;
       color: #7A8AA0;
-      font-size: 0.7rem;
+      font-size: clamp(0.6rem, calc(0.7rem * var(--ui-scale)), 1rem);
       cursor: pointer;
       text-decoration: underline;
       margin-left: auto;
@@ -166,12 +200,12 @@
 
     .dropdown-select {
       width: 100%;
-      padding: 6px 8px;
-      font-size: 0.88rem;
+      padding: calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));
+      font-size: clamp(0.75rem, calc(0.88rem * var(--ui-scale)), 1.4rem);
       font-weight: 700;
       color: var(--primary);
       background-color: #FFFFFF;
-      border: 2px solid var(--primary);
+      border: calc(2px * var(--ui-scale)) solid var(--primary);
       border-radius: 6px;
       outline: none;
       cursor: pointer;
@@ -180,10 +214,10 @@
     .custom-input {
       display: none;
       width: 100%;
-      padding: 6px 8px;
-      font-size: 0.88rem;
+      padding: calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));
+      font-size: clamp(0.75rem, calc(0.88rem * var(--ui-scale)), 1.4rem);
       font-weight: 600;
-      border: 2px dashed var(--accent);
+      border: calc(2px * var(--ui-scale)) dashed var(--accent);
       border-radius: 6px;
       color: var(--primary);
       outline: none;
@@ -193,7 +227,7 @@
     .show-input .custom-input { display: block; }
 
     .card-footer {
-      padding: 6px;
+      padding: calc(6px * var(--ui-scale));
       text-align: center;
       background: #F8FAFC;
       border-top: 1px solid var(--border);
@@ -203,7 +237,7 @@
       background: none;
       border: none;
       color: #A0AEC0;
-      font-size: 0.65rem;
+      font-size: clamp(0.55rem, calc(0.65rem * var(--ui-scale)), 0.9rem);
       cursor: pointer;
       text-decoration: underline;
     }
@@ -276,7 +310,10 @@
   <div class="champs-card" id="mainCard">
     <div class="champs-header">
       <div class="header-top">
-        <div style="width: 26px;"></div>
+        <div class="btn-group">
+          <button class="scale-btn" onclick="changeScale(-0.1)" title="Smaller Text">A−</button>
+          <button class="scale-btn" onclick="changeScale(0.1)" title="Larger Text">A+</button>
+        </div>
         <span class="header-title">CHAMPS EXPECTATIONS</span>
         <button class="minimize-btn" onclick="toggleCollapse()" id="collapseBtn" title="Minimize">-</button>
       </div>
@@ -289,345 +326,4 @@
         <div class="row-top">
           <div class="letter-badge">C</div>
           <div class="category-title">Conversation</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-c')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('c', this.value)">
-          <option value="Level 0: Voice Off / Silent">Level 0: Voice Off / Silent</option>
-          <option value="Level 1: Whisper (Partner)">Level 1: Whisper (Partner)</option>
-          <option value="Level 2: Table Talk (Group)">Level 2: Table Talk (Group)</option>
-          <option value="Level 3: Presentation Voice">Level 3: Presentation Voice</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('c', 'row-c')">
-      </div>
-
-      <!-- H: Help -->
-      <div class="champs-row" id="row-h">
-        <div class="row-top">
-          <div class="letter-badge">H</div>
-          <div class="category-title">Help</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-h')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('h', this.value)">
-          <option value="Raise hand & wait in seat">Raise hand & wait in seat</option>
-          <option value="Ask 3 before me (Tablemates)">Ask 3 before me (Tablemates)</option>
-          <option value="Red/Green Help Card on desk">Red/Green Help Card on desk</option>
-          <option value="Submit question in chat">Submit question in chat</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('h', 'row-h')">
-      </div>
-
-      <!-- A: Activity -->
-      <div class="champs-row" id="row-a">
-        <div class="row-top">
-          <div class="letter-badge">A</div>
-          <div class="category-title">Activity</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-a')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('a', this.value)">
-          <option value="Bellringer/Warm-up">Bellringer/Warm-up</option>
-          <option value="Direct Instruction / Mini-Lesson">Direct Instruction / Mini-Lesson</option>
-          <option value="Independent Work / Practice">Independent Work / Practice</option>
-          <option value="Group / Partner Lab">Group / Partner Lab</option>
-          <option value="Assessment / Quiz">Assessment / Quiz</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('a', 'row-a')">
-      </div>
-
-      <!-- M: Movement -->
-      <div class="champs-row" id="row-m">
-        <div class="row-top">
-          <div class="letter-badge">M</div>
-          <div class="category-title">Movement</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-m')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('m', this.value)">
-          <option value="2 at a time sharpen pencil, trash">2 at a time sharpen pencil, trash</option>
-          <option value="Seated at assigned desk">Seated at assigned desk</option>
-          <option value="Raise hand for permission">Raise hand for permission</option>
-          <option value="1 at a time (Sign-out / Pass)">1 at a time (Sign-out / Pass)</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('m', 'row-m')">
-      </div>
-
-      <!-- P: Participation -->
-      <div class="champs-row" id="row-p">
-        <div class="row-top">
-          <div class="letter-badge">P</div>
-          <div class="category-title">Participation</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-p')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('p', this.value)">
-          <option value="Actively completing assigned task">Actively completing assigned task</option>
-          <option value="Tracking speaker & taking notes">Tracking speaker & taking notes</option>
-          <option value="Contributing equal effort to group">Contributing equal effort to group</option>
-          <option value="Working silently on own material">Working silently on own material</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('p', 'row-p')">
-      </div>
-
-      <!-- S: Success -->
-      <div class="champs-row" id="row-s">
-        <div class="row-top">
-          <div class="letter-badge">S</div>
-          <div class="category-title">Success</div>
-          <button class="edit-toggle" onclick="toggleCustomInput('row-s')">+ Custom</button>
-        </div>
-        <select class="dropdown-select" onchange="saveSelection('s', this.value)">
-          <option value="Achieve Daily Learning Target!">Achieve Daily Learning Target!</option>
-          <option value="Do Your Personal Best Effort">Do Your Personal Best Effort</option>
-          <option value="Finish Strong!">Finish Strong!</option>
-        </select>
-        <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('s', 'row-s')">
-      </div>
-
-      <div class="card-footer">
-        <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
-      </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div class="modal-overlay" id="editModal">
-      <div class="modal-header">
-        <div class="modal-title">Settings & Customization</div>
-        <button class="close-btn" onclick="closeModal()">Done</button>
-      </div>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <script>
-    const labels = { c: "Conversation", h: "Help", a: "Activity", m: "Movement", p: "Participation", s: "Success" };
-
-    const defaultData = {
-      c: ["Level 0: Voice Off / Silent", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
-      h: ["Raise hand & wait in seat", "Ask 3 before me (Tablemates)", "Red/Green Help Card on desk", "Submit question in chat"],
-      a: ["Bellringer/Warm-up", "Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Group / Partner Lab", "Assessment / Quiz"],
-      m: ["2 at a time sharpen pencil, trash", "Seated at assigned desk", "Raise hand for permission", "1 at a time (Sign-out / Pass)"],
-      p: ["Actively completing assigned task", "Tracking speaker & taking notes", "Contributing equal effort to group", "Working silently on own material"],
-      s: ["Achieve Daily Learning Target!", "Do Your Personal Best Effort", "Finish Strong!"]
-    };
-
-    const defaultColors = { primary: "#1B2AD2", accent: "#E52222", bg: "#FFFFFF" };
-
-    let champsData, selectedData, champsColors;
-
-    function safeLoadStorage() {
-      try {
-        const storedOpt = localStorage.getItem('champsOptions_v11');
-        champsData = storedOpt ? JSON.parse(storedOpt) : JSON.parse(JSON.stringify(defaultData));
-
-        const storedSel = localStorage.getItem('champsSelected_v11');
-        selectedData = storedSel ? JSON.parse(storedSel) : { c:"", h:"", a:"", m:"", p:"", s:"" };
-
-        const storedCol = localStorage.getItem('champsColors_v11');
-        champsColors = storedCol ? JSON.parse(storedCol) : JSON.parse(JSON.stringify(defaultColors));
-      } catch (e) {
-        champsData = JSON.parse(JSON.stringify(defaultData));
-        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
-        champsColors = JSON.parse(JSON.stringify(defaultColors));
-      }
-    }
-
-    function applyColors() {
-      document.documentElement.style.setProperty('--primary', champsColors.primary || "#1B2AD2");
-      document.documentElement.style.setProperty('--accent', champsColors.accent || "#E52222");
-      document.documentElement.style.setProperty('--card-bg', champsColors.bg || "#FFFFFF");
-    }
-
-    function updateColor(key, hexVal) {
-      champsColors[key] = hexVal;
-      try { localStorage.setItem('champsColors_v11', JSON.stringify(champsColors)); } catch(e){}
-      applyColors();
-    }
-
-    function toggleCollapse() {
-      const card = document.getElementById('mainCard');
-      card.classList.toggle('collapsed');
-      document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-';
-    }
-
-    function escapeHtml(str) {
-      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    }
-
-    function renderUI() {
-      ['c','h','a','m','p','s'].forEach(key => {
-        const row = document.getElementById(`row-${key}`);
-        if (!row) return;
-        const select = row.querySelector('.dropdown-select');
-        select.innerHTML = '';
-
-        const list = (champsData[key] && champsData[key].length > 0) ? champsData[key] : defaultData[key];
-        list.forEach(optText => {
-          const opt = document.createElement('option');
-          opt.value = optText;
-          opt.textContent = optText;
-          if (selectedData[key] === optText) opt.selected = true;
-          select.appendChild(opt);
-        });
-      });
-    }
-
-    function toggleCustomInput(rowId) {
-      const row = document.getElementById(rowId);
-      row.classList.toggle('show-input');
-      if (row.classList.contains('show-input')) row.querySelector('.custom-input').focus();
-    }
-
-    function saveCustomOption(key, rowId) {
-      const row = document.getElementById(rowId);
-      const input = row.querySelector('.custom-input');
-      const val = input.value.trim();
-
-      if (val !== "") {
-        if (!champsData[key].includes(val)) {
-          champsData[key].push(val);
-          try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
-        }
-        selectedData[key] = val;
-        try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
-        renderUI();
-      }
-      row.classList.remove('show-input');
-      input.value = "";
-    }
-
-    function saveSelection(key, val) {
-      selectedData[key] = val;
-      try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
-    }
-
-    function openModal() {
-      const content = document.getElementById('modalContent');
-      content.innerHTML = '';
-
-      const colorSec = document.createElement('div');
-      colorSec.className = 'modal-section';
-      colorSec.innerHTML = `
-        <div class="modal-section-title">🎨 Theme Colors</div>
-        <div class="theme-picker-container">
-          <div class="color-picker-group">
-            <input type="color" id="pCol" value="${champsColors.primary}" onchange="updateColor('primary', this.value)">
-            <label for="pCol">Primary Header/Borders</label>
-          </div>
-          <div class="color-picker-group">
-            <input type="color" id="aCol" value="${champsColors.accent}" onchange="updateColor('accent', this.value)">
-            <label for="aCol">Accent Badges</label>
-          </div>
-        </div>
-      `;
-      content.appendChild(colorSec);
-
-      ['c','h','a','m','p','s'].forEach(key => {
-        const sec = document.createElement('div');
-        sec.className = 'modal-section';
-        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} - ${labels[key]}</div>`;
-
-        const ul = document.createElement('ul');
-        ul.className = 'item-list';
-
-        (champsData[key] || []).forEach((itemText, idx) => {
-          const li = document.createElement('li');
-          li.id = `item-${key}-${idx}`;
-          li.innerHTML = `
-            <span style="flex:1;">${escapeHtml(itemText)}</span>
-            <div class="item-actions">
-              <button class="edit-btn" onclick="enableInlineEdit('${key}', ${idx})">Edit</button>
-              <button class="delete-btn" onclick="removeItem('${key}', ${idx})">[X] Delete</button>
-            </div>
-          `;
-          ul.appendChild(li);
-        });
-
-        sec.appendChild(ul);
-
-        const addForm = document.createElement('div');
-        addForm.className = 'add-row-form';
-        addForm.innerHTML = `
-          <input type="text" id="add-input-${key}" class="add-row-input" placeholder="Add option..." onkeydown="if(event.key==='Enter') addItemFromModal('${key}')">
-          <button class="add-row-btn" onclick="addItemFromModal('${key}')">+ Add</button>
-        `;
-        sec.appendChild(addForm);
-
-        content.appendChild(sec);
-      });
-
-      document.getElementById('editModal').style.display = 'block';
-    }
-
-    function enableInlineEdit(key, index) {
-      const li = document.getElementById(`item-${key}-${index}`);
-      const currentText = champsData[key][index];
-      li.innerHTML = `
-        <input type="text" id="edit-input-${key}-${index}" class="add-row-input" value="${escapeHtml(currentText)}" onkeydown="if(event.key==='Enter') saveItemEdit('${key}', ${index})">
-        <div class="item-actions">
-          <button class="add-row-btn" onclick="saveItemEdit('${key}', ${index})">Save</button>
-          <button class="delete-btn" onclick="openModal()">Cancel</button>
-        </div>
-      `;
-      const input = document.getElementById(`edit-input-${key}-${index}`);
-      input.focus();
-      input.select();
-    }
-
-    function saveItemEdit(key, index) {
-      const input = document.getElementById(`edit-input-${key}-${index}`);
-      if (!input) return;
-      const newText = input.value.trim();
-      if (newText !== "") {
-        const oldText = champsData[key][index];
-        champsData[key][index] = newText;
-        if (selectedData[key] === oldText) {
-          selectedData[key] = newText;
-          try { localStorage.setItem('champsSelected_v11', JSON.stringify(selectedData)); } catch(e){}
-        }
-        try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
-      }
-      openModal();
-    }
-
-    function addItemFromModal(key) {
-      const input = document.getElementById(`add-input-${key}`);
-      const val = input ? input.value.trim() : "";
-      if (val !== "") {
-        if (!champsData[key].includes(val)) {
-          champsData[key].push(val);
-          try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
-        }
-        openModal();
-      }
-    }
-
-    function closeModal() {
-      document.getElementById('editModal').style.display = 'none';
-      renderUI();
-    }
-
-    function removeItem(key, index) {
-      champsData[key].splice(index, 1);
-      try { localStorage.setItem('champsOptions_v11', JSON.stringify(champsData)); } catch(e){}
-      openModal();
-    }
-
-    function resetDefaults() {
-      if (confirm("Reset options and theme colors to defaults?")) {
-        champsData = JSON.parse(JSON.stringify(defaultData));
-        selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
-        champsColors = JSON.parse(JSON.stringify(defaultColors));
-        try {
-          localStorage.removeItem('champsOptions_v11');
-          localStorage.removeItem('champsSelected_v11');
-          localStorage.removeItem('champsColors_v11');
-        } catch(e){}
-        applyColors();
-        renderUI();
-      }
-    }
-
-    safeLoadStorage();
-    applyColors();
-    renderUI();
-  </script>
-
-</body>
-</html>
+          <button class="edit-toggle
