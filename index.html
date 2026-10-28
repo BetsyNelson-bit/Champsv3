@@ -3,111 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHAMPS Classroom Expectations</title>
+  <title>CHAMPS Expectations</title>
   <style>
     :root {
-      --primary: #0A2540;
-      --accent: #D90429;
+      --primary: #1B2AD2;   /* Royal / Electric Blue */
+      --accent: #E52222;    /* Vibrant Red */
       --card-bg: #FFFFFF;
-      --text: #1D2A44;
-      --border: #B3C5D7;
+      --text: #1B2AD2;
+      --border: #D1D9E6;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     body {
       background: transparent;
-      padding: 6px;
-      color: var(--text);
+      padding: 4px;
+      color: #1D2A44;
     }
 
     .champs-card {
+      width: 100%;
+      max-width: 360px;
       margin: 0 auto;
       background: var(--card-bg);
-      border: 3px solid var(--primary);
-      border-radius: 10px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: max-width 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      position: relative;
     }
 
-    /* Resizing sizes */
-    .size-compact { max-width: 340px; }
-    .size-medium  { max-width: 500px; }
-    .size-large   { max-width: 700px; }
-
+    /* Header */
     .champs-header {
       background-color: var(--primary);
       color: #FFFFFF;
       text-align: center;
-      padding: 8px 10px;
-      border-bottom: 3px solid var(--accent);
+      padding: 10px 8px 6px 8px;
+      border-bottom: 3.5px solid var(--accent);
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 6px;
+      position: relative;
     }
 
     .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
     }
 
     .header-title {
-      font-weight: 800;
-      font-size: clamp(0.95rem, 2.5vw, 1.25rem);
-      letter-spacing: 1px;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: 0.8px;
       flex: 1;
+      text-align: center;
+      color: #FFFFFF;
+      text-transform: uppercase;
     }
 
-    .ctrl-btn {
+    .minimize-btn {
       background: rgba(255, 255, 255, 0.2);
-      border: 1px solid #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.8);
       color: #FFFFFF;
       font-weight: bold;
       width: 26px;
       height: 26px;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
-    .ctrl-btn:hover { background: #FFFFFF; color: var(--primary); }
+    .minimize-btn:hover {
+      background: #FFFFFF;
+      color: var(--primary);
+    }
 
     .manage-btn {
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid #FFFFFF;
       color: #FFFFFF;
       font-size: 0.75rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 4px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
-    .manage-btn:hover { background: #FFFFFF; color: var(--primary); }
+    .manage-btn:hover {
+      background: #FFFFFF;
+      color: var(--primary);
+    }
 
-    .card-body { display: flex; flex-direction: column; }
+    /* Card Rows */
+    .card-body {
+      display: flex;
+      flex-direction: column;
+    }
+
     .collapsed .card-body { display: none; }
     .collapsed .champs-header { border-bottom: none; }
 
     .champs-row {
-      padding: 6px 10px;
+      padding: 6px 10px 8px 10px;
       border-bottom: 1px solid var(--border);
       background-color: var(--card-bg);
       display: flex;
       flex-direction: column;
     }
 
-    .champs-row:nth-child(even) { background-color: rgba(0,0,0,0.03); }
+    .champs-row:last-child {
+      border-bottom: none;
+    }
 
     .row-top {
       display: flex;
@@ -115,12 +132,12 @@
       margin-bottom: 4px;
     }
 
-    .badge {
-      width: 28px;
-      height: 28px;
+    .letter-badge {
+      width: 26px;
+      height: 26px;
       background-color: var(--accent);
       color: #FFFFFF;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -131,42 +148,50 @@
     }
 
     .category-title {
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-weight: 900;
+      font-size: 0.95rem;
       color: var(--primary);
       text-transform: uppercase;
-    }
-
-    .dropdown-select {
-      width: 100%;
-      padding: 5px 7px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--primary);
-      background-color: #FFFFFF;
-      border: 1.5px solid var(--primary);
-      border-radius: 5px;
-      outline: none;
-      cursor: pointer;
+      letter-spacing: 0.5px;
     }
 
     .edit-toggle {
       background: none;
       border: none;
-      color: #6C757D;
+      color: #7A8AA0;
       font-size: 0.7rem;
       cursor: pointer;
       text-decoration: underline;
       margin-left: auto;
     }
 
+    .edit-toggle:hover {
+      color: var(--primary);
+    }
+
+    .dropdown-select {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      background-color: #FFFFFF;
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
     .custom-input {
       display: none;
       width: 100%;
-      padding: 5px 7px;
-      font-size: 0.85rem;
-      border: 1.5px dashed var(--accent);
-      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 2px dashed var(--accent);
+      border-radius: 6px;
+      color: var(--primary);
+      outline: none;
     }
 
     .show-input .dropdown-select { display: none; }
@@ -175,7 +200,8 @@
     .card-footer {
       padding: 6px;
       text-align: center;
-      background: rgba(0,0,0,0.02);
+      background: #F8FAFC;
+      border-top: 1px solid var(--border);
     }
 
     .reset-btn {
@@ -189,11 +215,12 @@
 
     .reset-btn:hover { color: var(--accent); }
 
+    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(10, 37, 64, 0.96);
+      background: rgba(10, 20, 60, 0.96);
       z-index: 100;
       padding: 10px;
       color: #FFFFFF;
@@ -252,23 +279,21 @@
 </head>
 <body>
 
-  <div class="champs-card size-compact" id="mainCard">
+  <div class="champs-card" id="mainCard">
     <div class="champs-header">
       <div class="header-top">
-        <button class="ctrl-btn" onclick="toggleSize()" title="Toggle Size">⤢</button>
+        <div style="width: 26px;"></div>
         <span class="header-title">CHAMPS EXPECTATIONS</span>
-        <button class="ctrl-btn" onclick="toggleCollapse()" id="collapseBtn" title="Minimize">-</button>
+        <button class="minimize-btn" onclick="toggleCollapse()" id="collapseBtn" title="Minimize">-</button>
       </div>
-      <div class="header-actions">
-        <button class="manage-btn" onclick="openModal()">⚙ Edit Options & Colors</button>
-      </div>
+      <button class="manage-btn" onclick="openModal()">⚙ Edit Options</button>
     </div>
 
     <div class="card-body">
       <!-- C: Conversation -->
       <div class="champs-row" id="row-c">
         <div class="row-top">
-          <div class="badge">C</div>
+          <div class="letter-badge">C</div>
           <div class="category-title">Conversation</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-c')">+ Custom</button>
         </div>
@@ -279,7 +304,7 @@
       <!-- H: Help -->
       <div class="champs-row" id="row-h">
         <div class="row-top">
-          <div class="badge">H</div>
+          <div class="letter-badge">H</div>
           <div class="category-title">Help</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-h')">+ Custom</button>
         </div>
@@ -290,7 +315,7 @@
       <!-- A: Activity -->
       <div class="champs-row" id="row-a">
         <div class="row-top">
-          <div class="badge">A</div>
+          <div class="letter-badge">A</div>
           <div class="category-title">Activity</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-a')">+ Custom</button>
         </div>
@@ -301,7 +326,7 @@
       <!-- M: Movement -->
       <div class="champs-row" id="row-m">
         <div class="row-top">
-          <div class="badge">M</div>
+          <div class="letter-badge">M</div>
           <div class="category-title">Movement</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-m')">+ Custom</button>
         </div>
@@ -312,7 +337,7 @@
       <!-- P: Participation -->
       <div class="champs-row" id="row-p">
         <div class="row-top">
-          <div class="badge">P</div>
+          <div class="letter-badge">P</div>
           <div class="category-title">Participation</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-p')">+ Custom</button>
         </div>
@@ -323,7 +348,7 @@
       <!-- S: Success -->
       <div class="champs-row" id="row-s">
         <div class="row-top">
-          <div class="badge">S</div>
+          <div class="letter-badge">S</div>
           <div class="category-title">Success</div>
           <button class="edit-toggle" onclick="toggleCustomInput('row-s')">+ Custom</button>
         </div>
@@ -350,56 +375,60 @@
     const labels = { c: "Conversation", h: "Help", a: "Activity", m: "Movement", p: "Participation", s: "Success" };
 
     const defaultData = {
-      c: ["Level 0: Silent / Voice Off", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
-      h: ["Raise hand & wait in seat", "Ask 3 before me (Tablemates)", "Help card on desk", "Submit question in chat"],
-      a: ["Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Partner / Group Work", "Assessment / Quiz", "Warm-Up / Do Now"],
-      m: ["Seated at assigned desk", "Raise hand for permission", "1 at a time (Sign-out / Pass)", "Responsible movement permitted"],
-      p: ["Tracking speaker & taking notes", "Working quietly on assignment", "Contributing equal effort to group", "Active listening & participating"],
+      c: ["Level 0: Voice Off / Silent", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
+      h: ["Raise hand & wait in seat", "Ask 3 before me (Tablemates)", "Red/Green Help Card on desk", "Submit question in chat"],
+      a: ["Bellringer/Warm-up", "Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Group / Partner Lab", "Assessment / Quiz"],
+      m: ["2 at a time sharpen pencil, trash", "Seated at assigned desk", "Raise hand for permission", "1 at a time (Sign-out / Pass)"],
+      p: ["Actively completing assigned task", "Tracking speaker & taking notes", "Contributing equal effort to group", "Working silently on own material"],
       s: ["Achieve Daily Learning Target!", "Do Your Personal Best Effort", "Finish Strong!"]
     };
 
-    const defaultColors = { primary: "#0A2540", accent: "#D90429", bg: "#FFFFFF" };
-    const sizes = ['compact', 'medium', 'large'];
+    const defaultColors = { primary: "#1B2AD2", accent: "#E52222", bg: "#FFFFFF" };
 
-    let champsData, selectedData, champsColors, currentSizeIdx;
+    let champsData, selectedData, champsColors;
 
     function safeLoadStorage() {
       try {
-        const storedOpt = localStorage.getItem('champsOptions_v9');
-        if (storedOpt) champsData = JSON.parse(storedOpt);
-        if (!champsData || !champsData.c || champsData.c.length === 0) {
-          champsData = JSON.parse(JSON.stringify(defaultData));
-        }
+        const storedOpt = localStorage.getItem('champsOptions_v10');
+        champsData = storedOpt ? JSON.parse(storedOpt) : JSON.parse(JSON.stringify(defaultData));
 
-        const storedSel = localStorage.getItem('champsSelected_v9');
+        const storedSel = localStorage.getItem('champsSelected_v10');
         selectedData = storedSel ? JSON.parse(storedSel) : { c:"", h:"", a:"", m:"", p:"", s:"" };
 
-        const storedCol = localStorage.getItem('champsColors_v9');
+        const storedCol = localStorage.getItem('champsColors_v10');
         champsColors = storedCol ? JSON.parse(storedCol) : JSON.parse(JSON.stringify(defaultColors));
-
-        currentSizeIdx = parseInt(localStorage.getItem('champsSizeIdx_v9')) || 0;
       } catch (e) {
         champsData = JSON.parse(JSON.stringify(defaultData));
         selectedData = { c:"", h:"", a:"", m:"", p:"", s:"" };
         champsColors = JSON.parse(JSON.stringify(defaultColors));
-        currentSizeIdx = 0;
       }
     }
 
     function applyColors() {
-      document.documentElement.style.setProperty('--primary', champsColors.primary || "#0A2540");
-      document.documentElement.style.setProperty('--accent', champsColors.accent || "#D90429");
+      document.documentElement.style.setProperty('--primary', champsColors.primary || "#1B2AD2");
+      document.documentElement.style.setProperty('--accent', champsColors.accent || "#E52222");
       document.documentElement.style.setProperty('--card-bg', champsColors.bg || "#FFFFFF");
     }
 
     function updateColor(key, hexVal) {
       champsColors[key] = hexVal;
-      try { localStorage.setItem('champsColors_v9', JSON.stringify(champsColors)); } catch(e){}
+      try { localStorage.setItem('champsColors_v10', JSON.stringify(champsColors)); } catch(e){}
       applyColors();
     }
 
-    function applySize() {
-      document.getElementById('mainCard').className = `champs-card size-${sizes[currentSizeIdx \vert{}\vert{} 0]}`; }  function toggleSize() { currentSizeIdx = ((currentSizeIdx \vert{}\vert{} 0) + 1) \% sizes.length; try { localStorage.setItem('champsSizeIdx_v9', currentSizeIdx); } catch(e){} applySize(); }  function toggleCollapse() { const card = document.getElementById('mainCard'); card.classList.toggle('collapsed'); document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-'; }  function escapeHtml(str) { return (str \vert{}\vert{} '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }  function renderUI() { ['c','h','a','m','p','s'].forEach(key => { const row = document.getElementById(`row-${key}`);
+    function toggleCollapse() {
+      const card = document.getElementById('mainCard');
+      card.classList.toggle('collapsed');
+      document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-';
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function renderUI() {
+      ['c','h','a','m','p','s'].forEach(key => {
+        const row = document.getElementById(`row-\${key}`);
         if (!row) return;
         const select = row.querySelector('.dropdown-select');
         select.innerHTML = '';
@@ -429,10 +458,10 @@
       if (val !== "") {
         if (!champsData[key].includes(val)) {
           champsData[key].push(val);
-          try { localStorage.setItem('champsOptions_v9', JSON.stringify(champsData)); } catch(e){}
+          try { localStorage.setItem('champsOptions_v10', JSON.stringify(champsData)); } catch(e){}
         }
         selectedData[key] = val;
-        try { localStorage.setItem('champsSelected_v9', JSON.stringify(selectedData)); } catch(e){}
+        try { localStorage.setItem('champsSelected_v10', JSON.stringify(selectedData)); } catch(e){}
         renderUI();
       }
       row.classList.remove('show-input');
@@ -441,7 +470,7 @@
 
     function saveSelection(key, val) {
       selectedData[key] = val;
-      try { localStorage.setItem('champsSelected_v9', JSON.stringify(selectedData)); } catch(e){}
+      try { localStorage.setItem('champsSelected_v10', JSON.stringify(selectedData)); } catch(e){}
     }
 
     function openModal() {
@@ -460,3 +489,27 @@
           <div class="color-picker-group">
             <input type="color" id="aCol" value="\${champsColors.accent}" onchange="updateColor('accent', this.value)">
             <label for="aCol">Accent</label>
+          </div>
+          <div class="color-picker-group">
+            <input type="color" id="bCol" value="\${champsColors.bg}" onchange="updateColor('bg', this.value)">
+            <label for="bCol">Background</label>
+          </div>
+        </div>
+      `;
+      content.appendChild(colorSec);
+
+      ['c','h','a','m','p','s'].forEach(key => {
+        const sec = document.createElement('div');
+        sec.className = 'modal-section';
+        sec.innerHTML = `<div class="modal-section-title">${key.toUpperCase()} -${labels[key]}</div>`;
+
+        const ul = document.createElement('ul');
+        ul.className = 'item-list';
+
+        (champsData[key] || []).forEach((itemText, idx) => {
+          const li = document.createElement('li');
+          li.id = `item-${key}-${idx}`;
+          li.innerHTML = `
+            <span style="flex:1;">\${escapeHtml(itemText)}</span>
+            <div class="item-actions">
+              <button class="edit-btn" onclick="enableInlineEdit('${key}',${idx})">Edit</button>
