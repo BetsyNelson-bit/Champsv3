@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHAMPS Expectations Card</title>
+  <title>CHAMPS Classroom Expectations</title>
   <style>
     :root {
       --primary: #0A2540;
       --accent: #D90429;
-      --light-bg: #F4F7F6;
       --card-bg: #FFFFFF;
       --text: #1D2A44;
       --border: #B3C5D7;
@@ -18,19 +17,15 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
+    body {
       background-color: transparent;
-      padding: 8px;
+      padding: 6px;
       color: var(--text);
-      overflow-y: auto;
     }
 
-    /* Resizable container states */
     .champs-card {
       margin: 0 auto;
       background: var(--card-bg);
@@ -38,23 +33,18 @@
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      position: relative;
-      transition: max-width 0.25s ease;
+      transition: max-width 0.2s ease;
     }
 
-    .champs-card.size-compact { max-width: 340px; }
-    .champs-card.size-medium  { max-width: 520px; }
-    .champs-card.size-large   { max-width: 720px; }
+    .size-compact { max-width: 320px; }
+    .size-medium  { max-width: 480px; }
+    .size-large   { max-width: 680px; }
 
-    /* Header & Control Toolbar */
     .champs-header {
       background-color: var(--primary);
       color: #FFFFFF;
       text-align: center;
       padding: 8px 10px;
-      font-weight: 800;
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      letter-spacing: 1px;
       border-bottom: 3px solid var(--accent);
       display: flex;
       flex-direction: column;
@@ -65,43 +55,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
     }
 
     .header-title {
+      font-weight: 800;
+      font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+      letter-spacing: 1px;
       flex: 1;
-      text-align: center;
     }
 
-    .header-controls {
-      display: flex;
-      gap: 4px;
-    }
-
-    .icon-btn {
+    .ctrl-btn {
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #FFFFFF;
       color: #FFFFFF;
-      font-size: 0.85rem;
       font-weight: bold;
       width: 26px;
       height: 26px;
       border-radius: 4px;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.85rem;
     }
 
-    .icon-btn:hover {
-      background: #FFFFFF;
-      color: var(--primary);
-    }
-
-    .header-actions {
-      display: flex;
-      justify-content: center;
-    }
+    .ctrl-btn:hover { background: #FFFFFF; color: var(--primary); }
 
     .manage-btn {
       background: rgba(255, 255, 255, 0.15);
@@ -114,36 +92,21 @@
       cursor: pointer;
     }
 
-    .manage-btn:hover {
-      background: #FFFFFF;
-      color: var(--primary);
-    }
+    .manage-btn:hover { background: #FFFFFF; color: var(--primary); }
 
-    /* Card Content Rows */
-    .card-body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .collapsed .card-body {
-      display: none;
-    }
-
-    .collapsed .champs-header {
-      border-bottom: none;
-    }
+    .champs-body { display: flex; flex-direction: column; }
+    .collapsed .champs-body { display: none; }
+    .collapsed .champs-header { border-bottom: none; }
 
     .champs-row {
-      display: flex;
-      flex-direction: column;
-      padding: 8px 10px;
+      padding: 6px 10px;
       border-bottom: 1px solid var(--border);
       background-color: var(--card-bg);
+      display: flex;
+      flex-direction: column;
     }
 
-    .champs-row:nth-child(even) {
-      background-color: var(--light-bg);
-    }
+    .champs-row:nth-child(even) { background-color: rgba(0,0,0,0.03); }
 
     .row-top {
       display: flex;
@@ -151,12 +114,12 @@
       margin-bottom: 4px;
     }
 
-    .letter-badge {
-      width: clamp(28px, 4vw, 36px);
-      height: clamp(28px, 4vw, 36px);
+    .badge {
+      width: 28px;
+      height: 28px;
       background-color: var(--accent);
       color: #FFFFFF;
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-size: 1.1rem;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -168,16 +131,15 @@
 
     .category-title {
       font-weight: 700;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-size: 0.9rem;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .dropdown-select {
       width: 100%;
-      padding: 6px 8px;
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      padding: 5px 7px;
+      font-size: 0.85rem;
       font-weight: 600;
       color: var(--primary);
       background-color: #FFFFFF;
@@ -185,10 +147,6 @@
       border-radius: 5px;
       outline: none;
       cursor: pointer;
-    }
-
-    .dropdown-select:focus {
-      border-color: var(--accent);
     }
 
     .edit-toggle {
@@ -204,7 +162,7 @@
     .custom-input {
       display: none;
       width: 100%;
-      padding: 6px 8px;
+      padding: 5px 7px;
       font-size: 0.85rem;
       border: 1.5px dashed var(--accent);
       border-radius: 5px;
@@ -214,12 +172,12 @@
     .show-input .custom-input { display: block; }
 
     .card-footer {
-      padding: 6px 10px;
+      padding: 6px;
       text-align: center;
-      background: var(--light-bg);
+      background: rgba(0,0,0,0.02);
     }
 
-    .reset-link {
+    .reset-btn {
       background: none;
       border: none;
       color: #A0AEC0;
@@ -228,16 +186,15 @@
       text-decoration: underline;
     }
 
-    .reset-link:hover { color: var(--accent); }
+    .reset-btn:hover { color: var(--accent); }
 
-    /* Manage Modal */
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(10, 37, 64, 0.96);
       z-index: 100;
-      padding: 12px;
+      padding: 10px;
       color: #FFFFFF;
       overflow-y: auto;
     }
@@ -252,22 +209,20 @@
       align-items: center;
       border-bottom: 2px solid var(--accent);
       padding: 6px 0;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    .modal-title { font-weight: 800; font-size: 1rem; }
-    .close-modal { background: var(--accent); color: white; border: none; padding: 4px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .modal-title { font-weight: 800; font-size: 0.95rem; }
+    .close-btn { background: var(--accent); color: white; border: none; padding: 3px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
 
     .modal-section {
       margin-bottom: 12px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.08);
       padding: 8px;
       border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.1);
     }
-    
-    .modal-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #90CDF4; }
 
+    .modal-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #90CDF4; }
     .item-list { list-style: none; margin-bottom: 6px; }
     .item-list li {
       display: flex;
@@ -281,42 +236,156 @@
       gap: 6px;
     }
 
-    .item-actions {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
+    .item-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .edit-btn { background: #D69E2E; color: white; border: none; border-radius: 3px; padding: 1px 6px; font-size: 0.65rem; cursor: pointer; }
+    .delete-btn { background: var(--accent); color: white; border: none; border-radius: 3px; padding: 1px 5px; font-size: 0.65rem; cursor: pointer; }
+
+    .add-row-form { display: flex; gap: 4px; margin-top: 4px; }
+    .add-row-input { flex: 1; padding: 3px 6px; font-size: 0.75rem; border: 1px solid var(--border); border-radius: 3px; outline: none; color: #1D2A44; }
+    .add-row-btn { background: #2B6CB0; color: white; border: none; border-radius: 3px; padding: 3px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer; }
+
+    .theme-picker-container { display: flex; gap: 10px; flex-wrap: wrap; }
+    .color-picker-group { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; }
+    .color-picker-group input[type="color"] { border: none; width: 22px; height: 22px; border-radius: 4px; cursor: pointer; background: none; }
+  </style>
+</head>
+<body>
+
+  <div class="champs-card size-compact" id="mainCard">
+    <div class="champs-header">
+      <div class="header-top">
+        <button class="ctrl-btn" onclick="toggleSize()" title="Toggle Size">⤢</button>
+        <span class="header-title">CHAMPS EXPECTATIONS</span>
+        <button class="ctrl-btn" onclick="toggleCollapse()" id="collapseBtn" title="Minimize">-</button>
+      </div>
+      <div class="header-actions">
+        <button class="manage-btn" onclick="openModal()">⚙ Edit Options & Colors</button>
+      </div>
+    </div>
+
+    <div class="champs-body" id="champsRows"></div>
+
+    <div class="card-footer">
+      <button class="reset-btn" onclick="resetDefaults()">Reset to Defaults</button>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-header">
+        <div class="modal-title">Settings & Customization</div>
+        <button class="close-btn" onclick="closeModal()">Done</button>
+      </div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const categories = [
+      { key: 'c', letter: 'C', title: 'Conversation' },
+      { key: 'h', letter: 'H', title: 'Help' },
+      { key: 'a', letter: 'A', title: 'Activity' },
+      { key: 'm', letter: 'M', title: 'Movement' },
+      { key: 'p', letter: 'P', title: 'Participation' },
+      { key: 's', letter: 'S', title: 'Success' }
+    ];
+
+    const defaultData = {
+      c: ["Level 0: Silent / Voice Off", "Level 1: Whisper (Partner)", "Level 2: Table Talk (Group)", "Level 3: Presentation Voice"],
+      h: ["Raise hand & wait in seat", "Ask 3 before me (Tablemates)", "Help card on desk", "Submit question in chat"],
+      a: ["Direct Instruction / Mini-Lesson", "Independent Work / Practice", "Partner / Group Work", "Assessment / Quiz", "Warm-Up / Do Now"],
+      m: ["Seated at assigned desk", "Raise hand for permission", "1 at a time (Sign-out / Pass)", "Responsible movement permitted"],
+      p: ["Tracking speaker & taking notes", "Working quietly on assignment", "Contributing equal effort to group", "Active listening & participating"],
+      s: ["Achieve Daily Learning Target!", "Do Your Personal Best Effort", "Finish Strong!"]
+    };
+
+    const defaultColors = { primary: "#0A2540", accent: "#D90429", bg: "#FFFFFF" };
+    const sizes = ['compact', 'medium', 'large'];
+
+    let champsData = JSON.parse(localStorage.getItem('champsOptions_v5')) || defaultData;
+    let selectedData = JSON.parse(localStorage.getItem('champsSelected_v5')) || { c:"", h:"", a:"", m:"", p:"", s:"" };
+    let champsColors = JSON.parse(localStorage.getItem('champsColors_v5')) || defaultColors;
+    let currentSizeIdx = parseInt(localStorage.getItem('champsSizeIdx_v5')) || 0;
+
+    function applyColors() {
+      document.documentElement.style.setProperty('--primary', champsColors.primary);
+      document.documentElement.style.setProperty('--accent', champsColors.accent);
+      document.documentElement.style.setProperty('--card-bg', champsColors.bg);
     }
 
-    .edit-btn {
-      background: #D69E2E;
-      color: white;
-      border: none;
-      border-radius: 3px;
-      padding: 1px 6px;
-      font-size: 0.65rem;
-      cursor: pointer;
-      font-weight: 600;
+    function updateColor(key, hexVal) {
+      champsColors[key] = hexVal;
+      localStorage.setItem('champsColors_v5', JSON.stringify(champsColors));
+      applyColors();
     }
 
-    .delete-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 3px;
-      padding: 1px 5px;
-      font-size: 0.65rem;
-      cursor: pointer;
+    function applySize() {
+      document.getElementById('mainCard').className = `champs-card size-${sizes[currentSizeIdx]}`; }  function toggleSize() { currentSizeIdx = (currentSizeIdx + 1) \% sizes.length; localStorage.setItem('champsSizeIdx_v5', currentSizeIdx); applySize(); }  function toggleCollapse() { const card = document.getElementById('mainCard'); card.classList.toggle('collapsed'); document.getElementById('collapseBtn').textContent = card.classList.contains('collapsed') ? '+' : '-'; }  function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }  function renderRows() { const container = document.getElementById('champsRows'); container.innerHTML = '';  categories.forEach(cat => { const row = document.createElement('div'); row.className = 'champs-row'; row.id = `row-${cat.key}`;
+
+        row.innerHTML = `
+          <div class="row-top">
+            <div class="badge">\${cat.letter}</div>
+            <div class="category-title">\${cat.title}</div>
+            <button class="edit-toggle" onclick="toggleCustomInput('row-\${cat.key}')">+ Custom</button>
+          </div>
+          <select class="dropdown-select" onchange="saveSelection('\${cat.key}', this.value)"></select>
+          <input type="text" class="custom-input" placeholder="Type custom option..." onblur="saveCustomOption('${cat.key}', 'row-${cat.key}')">
+        `;
+
+        container.appendChild(row);
+
+        const select = row.querySelector('.dropdown-select');
+        champsData[cat.key].forEach(optText => {
+          const opt = document.createElement('option');
+          opt.value = optText;
+          opt.textContent = optText;
+          if (selectedData[cat.key] === optText) opt.selected = true;
+          select.appendChild(opt);
+        });
+      });
     }
 
-    .add-row-form {
-      display: flex;
-      gap: 4px;
-      margin-top: 4px;
+    function toggleCustomInput(rowId) {
+      const row = document.getElementById(rowId);
+      row.classList.toggle('show-input');
+      if (row.classList.contains('show-input')) row.querySelector('.custom-input').focus();
     }
 
-    .add-row-input {
-      flex: 1;
-      padding: 3px 6px;
-      font-size: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius:
+    function saveCustomOption(key, rowId) {
+      const row = document.getElementById(rowId);
+      const input = row.querySelector('.custom-input');
+      const val = input.value.trim();
+
+      if (val !== "") {
+        if (!champsData[key].includes(val)) {
+          champsData[key].push(val);
+          localStorage.setItem('champsOptions_v5', JSON.stringify(champsData));
+        }
+        selectedData[key] = val;
+        localStorage.setItem('champsSelected_v5', JSON.stringify(selectedData));
+        renderRows();
+      }
+      row.classList.remove('show-input');
+      input.value = "";
+    }
+
+    function saveSelection(key, val) {
+      selectedData[key] = val;
+      localStorage.setItem('champsSelected_v5', JSON.stringify(selectedData));
+    }
+
+    function openModal() {
+      const content = document.getElementById('modalContent');
+      content.innerHTML = '';
+
+      const colorSec = document.createElement('div');
+      colorSec.className = 'modal-section';
+      colorSec.innerHTML = `
+        <div class="modal-section-title">🎨 Theme Colors</div>
+        <div class="theme-picker-container">
+          <div class="color-picker-group">
+            <input type="color" id="pCol" value="\${champsColors.primary}" onchange="updateColor('primary', this.value)">
+            <label for="pCol">Primary</label>
+          </div>
+          <div class="color-picker-group">
+            <input type="color" id="aCol" value="\${champsColors.accent}" onchange="updateColor('accent', this.value)">
+            <label for="aCol">Accent</label>
+          </div>
